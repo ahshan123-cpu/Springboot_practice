@@ -65,4 +65,15 @@ public class EmployeeServiceTest {
         Mockito.verify(employeeRepo, Mockito.times(1)).delete(employee);
         System.out.println("Delete Employee Successfully");
     }
+
+    @Test
+    public void testUpdateEmployee() {
+        Mockito.when(employeeRepo.findById(1)).thenReturn(Optional.of(employee));
+        Mockito.when(employeeRepo.save(Mockito.any(Employee.class))).thenReturn(employee);
+        String result = employeeService.updateEmployee(employee.getId(), employee);
+        Mockito.verify(employeeRepo, Mockito.times(1)).findById(1);
+        Mockito.verify(employeeRepo, Mockito.times(1)).save(employee);
+        System.out.println("Update Employee Successfully");
+
+    }
 }
