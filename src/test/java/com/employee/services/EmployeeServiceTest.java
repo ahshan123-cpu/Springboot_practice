@@ -5,12 +5,13 @@ import com.employee.details.repo.EmployeeRepo;
 import com.employee.details.services.EmployeeService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeeServiceTest {
@@ -47,33 +48,32 @@ public class EmployeeServiceTest {
 
     @Test
     public void testCreateEmployee() {
-        Mockito.when(employeeRepo.save(employee)).thenReturn(employee);
+        when(employeeRepo.save(employee)).thenReturn(employee);
         Employee emp = employeeService.createEmployee(employee);
-        Assertions.assertNotNull(emp);
-        Assertions.assertEquals(employee.getId(),emp.getId());
-        Assertions.assertEquals(employee.getName(),emp.getName());
-        Assertions.assertTrue(employee.getId()==1);
+        assertNotNull(emp);
+        assertEquals(employee.getId(),emp.getId());
+        assertEquals(employee.getName(),emp.getName());
+        assertTrue(employee.getId()==1);
         System.out.println("Adding Employee Successfully");
     }
 
     @Test
     public void testDeleteEmployee() {
-        Mockito.when(employeeRepo.findById(1)).thenReturn(Optional.of(employee));
-        Mockito.doNothing().when(employeeRepo).delete(employee);
+        when(employeeRepo.findById(1)).thenReturn(Optional.of(employee));
+        doNothing().when(employeeRepo).delete(employee);
         String result = employeeService.deleteEmployee(1);
-        Mockito.verify(employeeRepo, Mockito.times(1)).findById(1);
-        Mockito.verify(employeeRepo, Mockito.times(1)).delete(employee);
+        verify(employeeRepo, Mockito.times(1)).findById(1);
+        verify(employeeRepo, Mockito.times(1)).delete(employee);
         System.out.println("Delete Employee Successfully");
     }
 
     @Test
     public void testUpdateEmployee() {
-        Mockito.when(employeeRepo.findById(1)).thenReturn(Optional.of(employee));
-        Mockito.when(employeeRepo.save(Mockito.any(Employee.class))).thenReturn(employee);
+        when(employeeRepo.findById(1)).thenReturn(Optional.of(employee));
+        when(employeeRepo.save(Mockito.any(Employee.class))).thenReturn(employee);
         String result = employeeService.updateEmployee(employee.getId(), employee);
-        Mockito.verify(employeeRepo, Mockito.times(1)).findById(1);
-        Mockito.verify(employeeRepo, Mockito.times(1)).save(employee);
+        verify(employeeRepo, Mockito.times(1)).findById(1);
+        verify(employeeRepo, Mockito.times(1)).save(employee);
         System.out.println("Update Employee Successfully");
-
     }
 }
