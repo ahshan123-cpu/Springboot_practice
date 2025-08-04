@@ -38,6 +38,7 @@ public class BookControllerTest {
         ResponseEntity<Book> response = testRestTemplate.postForEntity(baseurl,book,Book.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertNotNull(response.getBody());
         assertEquals("Java Master", response.getBody().getBookName());
         assertTrue(response.getBody().getBookAuthor().equals("Ahshan"));
         System.out.println("Book Added Test Successfully");
