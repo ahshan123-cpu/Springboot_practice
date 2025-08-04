@@ -1,17 +1,28 @@
 package com.employee.services;
 
 import com.employee.libraryManagement.model.Book;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BookControllerTest {
-    private TestRestTemplate  restTemplate;
     @LocalServerPort
     private int port;
     private String baseurl;
+
+    @Autowired
     private TestRestTemplate testRestTemplate;
+
+    @BeforeEach
     public void setUp(){
         baseurl = "http://localhost:"+port+"/book";
     }
@@ -20,10 +31,14 @@ public class BookControllerTest {
     public void testAddBook(){
         Book book = new Book();
         book.setId(2);
-        book.setBookName("Book Name");
-        book.setBookAuthor("Book Author");
-        book.setBookISBN("Book ISBN");
-        ResponseEntity<Book> response = restTemplate.postForEntity(baseurl+"/addBook",book,Book.class);
-    }
+        book.setBookName("Java Master");
+        book.setBookAuthor("Ahshan");
+        book.setBookISBN("7896544123");
+        ResponseEntity<Book> response = testRestTemplate.postForEntity(baseurl,book,Book.class);
 
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Java Master", response.getBody().getBookName());
+        assertTrue(response.getBody().getBookAuthor().equals("Ahshan"));
+        System.out.println("Book Added Test Successfully");
+    }
 }
