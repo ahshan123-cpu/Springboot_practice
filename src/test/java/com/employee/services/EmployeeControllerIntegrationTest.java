@@ -21,7 +21,6 @@ public class EmployeeControllerIntegrationTest {
     private MockMvc mockMvc;
     @Autowired
     private EmployeeRepo employeeRepo;
-
     @Autowired
     private ObjectMapper objectMapper;
     @BeforeEach
@@ -43,5 +42,4 @@ public class EmployeeControllerIntegrationTest {
                 andExpect(status().isOk()).
                 andExpect(jsonPath("$.name").value("Saleem"));
     }
-
 }
