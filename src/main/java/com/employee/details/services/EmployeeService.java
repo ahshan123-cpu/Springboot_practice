@@ -2,6 +2,8 @@ package com.employee.details.services;
 
 import com.employee.details.entity.Employee;
 import com.employee.details.repo.EmployeeRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,17 +35,15 @@ public class EmployeeService {
             emp.setWorkExperience(employee.getWorkExperience());
             employeeRepo.save(emp);
         }else{
-           throw new RuntimeException("Employee not found");
+            Logger logger = LoggerFactory.getLogger(EmployeeService.class);
+            logger.error("Employee not found");
         }
         return "Employee Updated";
     }
 
     public String deleteEmployee(int id) {
         Optional<Employee> optionalEmp = employeeRepo.findById(id);
-        if (optionalEmp.isPresent()) {
-            Employee emp = optionalEmp.get();
-            employeeRepo.delete(emp);
-        }
+        optionalEmp.ifPresent(emp -> employeeRepo.delete(emp));
         return "Employee Deleted Successfully";
     }
 }

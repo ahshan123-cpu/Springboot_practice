@@ -7,6 +7,8 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
@@ -37,7 +39,9 @@ public class EmployeeServiceTest {
 
     @AfterAll
     public static void last(){
+        Logger logger =  LoggerFactory.getLogger(EmployeeServiceTest.class);
         System.out.println("Hello, this is last execution or initialization");
+        logger.getClass();
     }
 
     @BeforeEach
