@@ -30,6 +30,7 @@ public class BookControllerTest {
     @Test
     public void testAddBook(){
         Book book = new Book();
+        System.out.println("port "+port);
         book.setId(2);
         book.setBookName("Java Master");
         book.setBookAuthor("Ahshan");
